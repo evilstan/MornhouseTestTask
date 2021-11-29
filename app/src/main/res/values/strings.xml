@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">Mornhouse Test Task</string>
+
+    <string name="header">Input number to get some interesting fact about it</string>
+    <string name="edit_text_hint">Input here</string>
+    <string name="btn_get_text">Get fact</string>
+    <string name="btn_random_text">Get random number</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="database_is_empty">No history available… Yet</string>
+</resources>
