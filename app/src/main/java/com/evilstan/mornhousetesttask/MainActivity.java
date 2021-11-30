@@ -33,16 +33,8 @@ public class MainActivity extends AppCompatActivity implements
         List<NumberInfo> historyList = dataBaseManager.getHistory();
         HistoryAdapter historyAdapter = new HistoryAdapter(historyList, this);
 
-        for (int i = 0; i < binding.getRoot().getChildCount(); i++) {
-
-            //set listener to all buttons in layout
-            if (binding.getRoot().getChildAt(i) instanceof Button) {
-                binding.getRoot().getChildAt(i).setOnClickListener(this);
-            }
-        }
-
-/*        binding.getByNumberBtn.setOnClickListener(this);
-        binding.getRandomBtn.setOnClickListener(this);*/
+        binding.getByNumberBtn.setOnClickListener(this);
+        binding.getRandomBtn.setOnClickListener(this);
         binding.historyRecycler.setAdapter(historyAdapter);
     }
 
