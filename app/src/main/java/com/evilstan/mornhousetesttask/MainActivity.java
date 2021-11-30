@@ -1,9 +1,10 @@
 package com.evilstan.mornhousetesttask;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.evilstan.mornhousetesttask.databinding.ActivityMainBinding;
 
@@ -12,49 +13,54 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements
         View.OnClickListener,
         HistoryAdapter.OnHistoryClickListener {
-
-
+    
     //TODO UI
-   private ActivityMainBinding binding;
+    private ActivityMainBinding binding;
     private DataBaseManager dataBaseManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
-        View root = binding.getRoot();
-        setContentView(root);
+        setContentView(binding.getRoot());
 
-        init();
+        initComponents();
     }
 
-    private void init() {
-        dataBaseManager = new DataBaseManager(this);
+    private void initComponents() {
+        dataBaseManager = new DataBaseManager();
 
         List<NumberInfo> historyList = dataBaseManager.getHistory();
         HistoryAdapter historyAdapter = new HistoryAdapter(historyList, this);
 
-        binding.getByNumberBtn.setOnClickListener(this);
-        binding.getRandomBtn.setOnClickListener(this);
+        for (int i = 0; i < binding.getRoot().getChildCount(); i++) {
+
+            //set listener to all buttons in layout
+            if (binding.getRoot().getChildAt(i) instanceof Button) {
+                binding.getRoot().getChildAt(i).setOnClickListener(this);
+            }
+        }
+
+/*        binding.getByNumberBtn.setOnClickListener(this);
+        binding.getRandomBtn.setOnClickListener(this);*/
         binding.historyRecycler.setAdapter(historyAdapter);
     }
 
     @Override
     public void onClick(View v) {
-        int id = v.getId();
-        if (id == R.id.get_by_number_btn) {
-            getNumber();
-        } else if (id == R.id.get_random_btn) {
-            getRandomNumber();
+        if (v.getId() == R.id.get_by_number_btn) {
+            getByNumber();
+        } else if (v.getId() == R.id.get_random_btn) {
+            getRandom();
         }
     }
 
     @Override
-    public void onItemClick(NumberInfo numberInfo, int position) {
+    public void onItemClick(NumberInfo numberInfo) {
         //TODO start fragment with NumberInfo attributes
     }
 
-    private void getNumber() {
+    private void getByNumber() {
         int number = 0;
         if (binding.inputNumberEdit.getText() != null) {
             number = Integer.parseInt(binding.inputNumberEdit.getText().toString());
@@ -68,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements
         //TODO open fragment with number and description
     }
 
-    private void getRandomNumber() {
+    private void getRandom() {
         int randomNumber = 0;
         String randomDescription = "";
         //TODO get request random number

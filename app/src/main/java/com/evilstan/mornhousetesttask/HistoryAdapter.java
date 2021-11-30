@@ -7,23 +7,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.material.textview.MaterialTextView;
+import com.evilstan.mornhousetesttask.databinding.ListItemBinding;
 
 import java.util.List;
 
 
-public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder>  {
-//TODO refactor
-    interface OnHistoryClickListener{
-        void onItemClick(NumberInfo numberInfo, int position);
-    }
+public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
+    static List<NumberInfo> dataSet;
     private final OnHistoryClickListener onHistoryClickListener;
-    List<NumberInfo> dataSet;
-
 
     public HistoryAdapter(List<NumberInfo> dataSet, OnHistoryClickListener onHistoryClickListener) {
-        this.dataSet = dataSet;
+        HistoryAdapter.dataSet = dataSet;
         this.onHistoryClickListener = onHistoryClickListener;
     }
 
@@ -37,15 +32,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull HistoryAdapter.ViewHolder holder, int position) {
         NumberInfo numberInfo = dataSet.get(position);
-        holder.getNumberText().setText(dataSet.get(position).getNumber());
-        holder.getDescriptionText().setText(dataSet.get(position).getDescription());
+        holder.setDescription(dataSet.get(position).getDescription());
+        holder.setNumber(dataSet.get(position).getNumber());
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onHistoryClickListener.onItemClick(numberInfo, holder.getAdapterPosition());
-            }
-        });
+        holder.itemView.setOnClickListener(v -> onHistoryClickListener.onItemClick(numberInfo));
     }
 
     @Override
@@ -53,22 +43,32 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
         return dataSet.size();
     }
 
+    //TODO refactor
+    interface OnHistoryClickListener {
+        void onItemClick(NumberInfo numberInfo);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final MaterialTextView numberText;
-        private final MaterialTextView descriptionText;
+        ListItemBinding binding;
+
+/*        private final MaterialTextView numberText;
+        private final MaterialTextView descriptionText;*/
 
         public ViewHolder(View view) {
             super(view);
-            numberText = view.findViewById(R.id.number_text);
-            descriptionText = view.findViewById(R.id.description_text);
+            binding = ListItemBinding.inflate(LayoutInflater.from(view.getContext()));
+
+            //TODO check, if working - delete commented text
+/*            numberText = view.findViewById(R.id.number_text);
+            descriptionText = view.findViewById(R.id.description_text);*/
         }
 
-        public MaterialTextView getNumberText() {
-            return numberText;
+        public void setNumber(int number) {
+            binding.numberText.setText(number);
         }
 
-        public MaterialTextView getDescriptionText() {
-            return descriptionText;
+        public void setDescription(String text) {
+            binding.descriptionText.setText(text);
         }
     }
 

@@ -1,18 +1,12 @@
 package com.evilstan.mornhousetesttask;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 
 public class DataBaseManager {
-    Context context;
+//TODO database communicating in backthread
 
-    public DataBaseManager(Context context) {
-        this.context = context;
-    }
-
-    public List<NumberInfo> getHistory(){
+    public List<NumberInfo> getHistory() {
         AppDataBase dataBase = App.getInstance().getDataBase();
         NumberInfoDao numberInfoDao = dataBase.numberInfoDao();
 
@@ -22,14 +16,15 @@ public class DataBaseManager {
 
         return numberInfoDao.getHistory();
     }
-    //TODO Exception handling in DB querries
-    public void putToHistory(NumberInfo numberInfo){
+
+    //TODO Exception handling in DB queries
+    public void putToHistory(NumberInfo numberInfo) {
         AppDataBase dataBase = App.getInstance().getDataBase();
         NumberInfoDao numberInfoDao = dataBase.numberInfoDao();
         numberInfoDao.insert(numberInfo);
     }
 
-    public NumberInfo getFromDbByNumber(int number){
+    public NumberInfo getFromDbByNumber(int number) {
         AppDataBase dataBase = App.getInstance().getDataBase();
         NumberInfoDao numberInfoDao = dataBase.numberInfoDao();
         return numberInfoDao.getByNumber(number);
